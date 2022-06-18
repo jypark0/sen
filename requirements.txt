@@ -1,0 +1,15 @@
+torch==1.9.1
+torchvision
+gym==0.20.0
+mujoco-py
+ipdb
+wandb
+tqdm
+scikit-image
+matplotlib
+h5py
+jupyterlab
+e2cnn
+supersuit
+pandas
+torchinfo

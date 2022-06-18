@@ -1,0 +1,11 @@
+/checkpoints/
+/runs/
+/wandb/
+/notebooks/
+/dataset/
+/scratch/
+figures/
+*.out
+*.log
+*.png
+MUJOCO_LOG.TXT

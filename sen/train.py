@@ -10,12 +10,7 @@ from tqdm import trange
 
 import wandb
 from sen.data.dataset import StateTransitionsDataset
-from sen.utils import (
-    convert_kwargs,
-    get_model,
-    seed_all,
-    weights_init,
-)
+from sen.utils import convert_kwargs, get_model, seed_all, weights_init
 
 
 def get_args():
@@ -80,11 +75,6 @@ def get_args():
         help="Name of model class (see net/model.py)",
     )
     parser.add_argument("--model_kwargs", nargs="*", action=ParseKwargs)
-    parser.add_argument(
-        "--smoke_test",
-        action="store_true",
-        help="If enabled, only train on {dataset_prefix}_tiny.h5 dataset and train only 1 batch for 1 epoch",
-    )
 
     args = parser.parse_args()
 
@@ -204,9 +194,6 @@ def main(args=get_args()):
                 batch=f"{i}/{len(train_loader)}",
             )
 
-            if config.smoke_test:
-                break
-
         avg_loss = train_loss / len(train_loader.dataset)
 
         if avg_loss < best_loss:
@@ -220,9 +207,6 @@ def main(args=get_args()):
         )
 
         timestamp["epoch"] += 1
-
-        if config.smoke_test:
-            break
 
     print("[Training] Finished ...")
 

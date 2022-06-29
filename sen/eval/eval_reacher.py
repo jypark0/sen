@@ -95,8 +95,7 @@ def eval(args=get_args()):
         hits = [f"Hits@{i} (p={p})" for i in [1, 5, 10]]
         columns.extend(hits)
         columns.append(f"MRR (p={p})")
-        if p == 1:
-            columns.extend(["EE_S", "DIE_S"])
+        columns.extend([f"EE(S) (p={p})", f"DIE (p={p})"])
 
     df = pd.DataFrame(columns=columns)
 
@@ -112,9 +111,9 @@ def eval(args=get_args()):
             pred_next_z_all,
             next_z_all,
             rot_enc_all,
-            _,
-            _,
-            _,
+            rot_z_all,
+            rot_pred_next_z_all,
+            rot_next_z_all,
         ) = collect_reacher_path_length_data(
             model, val_loader, args.eval_n_episodes, args.device, path_length
         )
@@ -126,29 +125,30 @@ def eval(args=get_args()):
 
             # Calculate norm
             enc_norm = length(torch.flatten(enc_all, start_dim=1)).mean()
+            z_norm = length(torch.flatten(z_all, start_dim=1)).mean()
 
             rand_idx = torch.randperm(z_all.shape[0])
-            if path_length == 1:
-                # Equivariance Error (EE)
-                r_s_x = torch.flatten(
-                    check_dim_and_rot(enc_all, dims=(-2, -1)), start_dim=1
+
+            # Equivariance Error (EE)
+            r_s_x = torch.flatten(
+                check_dim_and_rot(enc_all, dims=(-2, -1)), start_dim=1
+            )
+            s_r_x = torch.flatten(rot_enc_all, start_dim=1)
+
+            ee_s = (length(r_s_x - s_r_x).mean(0) / enc_norm).item()
+            data.append(ee_s)
+
+            # Distance invariance error (DIE)
+            die = (
+                die_loss(
+                    pred_next_z_all,
+                    next_z_all[rand_idx, ...],
+                    rot_pred_next_z_all,
+                    rot_next_z_all[rand_idx, ...],
                 )
-                s_r_x = torch.flatten(rot_enc_all, start_dim=1)
-
-                ee_s = (length(r_s_x - s_r_x).mean(0) / enc_norm).item()
-                data.append(ee_s)
-
-                # Distance invariance error (DIE)
-                die_s = (
-                    die_loss(
-                        enc_all,
-                        enc_all[rand_idx, ...],
-                        rot_enc_all,
-                        rot_enc_all[rand_idx, ...],
-                    )
-                    / enc_norm
-                ).item()
-                data.append(die_s)
+                / z_norm
+            ).item()
+            data.append(die)
 
     df.loc[0] = data
     print("[Evaluation] Metrics")

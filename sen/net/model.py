@@ -46,7 +46,7 @@ class Model(torch.nn.Module):
         diff = diff.sum(sum_dims)
         assert diff.shape == (inp.shape[0],)
 
-        norm = 0.5 / (self.sigma ** 2)
+        norm = 0.5 / (self.sigma**2)
         return norm * diff
 
     def contrastive_loss(self, obs, action, next_obs):

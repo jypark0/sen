@@ -7,12 +7,12 @@ This code implements Symmetric Embedding Networks (SENs) is for the ICML 2022 pa
 If you find this work useful, please cite:
 
 ```bibtex
-@inproceedings{park2022sen, 
-  title={Learning Symmetric Representations for Equivariant World Model}, 
+@inproceedings{park2022sen,
+  title={Learning Symmetric Representations for Equivariant World Model},
   author={Jung Yeon Park, Ondrej Biza, Linfeng Zhao, Jan Willem van de Meent, Robin Walters}
-  booktitle={International Conference on Machine Learning}, 
-  year={2022}, 
-  url={https://arxiv.org/abs/2204.11371} 
+  booktitle={International Conference on Machine Learning},
+  year={2022},
+  url={https://arxiv.org/abs/2204.11371}
 }
 ```
 

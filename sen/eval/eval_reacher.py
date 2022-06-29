@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pandas as pd
 import torch
-import wandb
 from tqdm import tqdm
 
+import wandb
 from sen.data.dataset import OrigAndRotPathDataset, PathDataset
 from sen.eval.reacher_utils import (
     check_dim_and_rot,

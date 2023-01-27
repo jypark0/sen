@@ -6,7 +6,7 @@ Reference: https://github.com/tkipf/c-swm
 import gym
 import matplotlib.pyplot as plt
 import numpy as np
-import skimage
+import skimage.draw
 from gym import spaces
 from gym.utils import seeding
 from mpl_toolkits.mplot3d import Axes3D

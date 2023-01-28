@@ -1,12 +1,11 @@
 torch==1.9.1
-numpy==1.23.1
 torchvision
 gym==0.20.0
 mujoco-py
 ipdb
 wandb
 tqdm
-scikit-image==0.18.3
+scikit-image
 matplotlib
 h5py
 jupyterlab
